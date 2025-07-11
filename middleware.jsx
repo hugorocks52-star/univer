@@ -8,6 +8,7 @@ const isPublicRoute = createRouteMatcher([
   "/catalogs",
   "/univercat.pdf",
   "/contact",
+  "/api/contact",
 ]);
 
 export default clerkMiddleware(async (auth, req) => {

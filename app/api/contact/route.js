@@ -62,8 +62,7 @@ export async function DELETE(request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-
-    // Validate ID
+    
     if (!id) {
       return NextResponse.json(
         { error: "Contact ID is required" },
@@ -73,7 +72,6 @@ export async function DELETE(request) {
 
     await dbConnect();
 
-    // Delete the contact by ID
     const deletedContact = await Contact.findByIdAndDelete(id);
 
     if (!deletedContact) {
