@@ -1,21 +1,13 @@
-const { keyframes, animate, animations } = require("framer-motion");
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["className", "class"],
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/preline/preline.js",
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -52,15 +44,6 @@ module.exports = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        keyframes: {
-          "fade-in": {
-            from: { opacity: "0", transform: "translateY(-10px)" },
-            to: { opacity: "1", transform: "none" },
-          },
-        },
-		animation: {
-			"fade-up": "fade-up 1000ms var(--animation-delay, 0ms) ease forwards",
-		},
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -74,5 +57,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("preline/plugin"), require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")],
 };

@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { z } from "zod";
+import { Clock3, Mail, MapPin, Phone, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -16,23 +18,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { siteConfig } from "@/lib/site-data";
+import { toEnglishDigits } from "@/utils/persian";
 
 const formSchema = z.object({
-  name: z.string().min(2, "نام باید حداقل ۲ کاراکتر باشد."),
-  subject: z.string().min(5, "موضوع باید حداقل ۵ کاراکتر باشد."),
-  company: z.string().optional(),
+  name: z.string().trim().min(2, "نام باید حداقل ۲ کاراکتر باشد.").max(80, "نام واردشده بیش از حد طولانی است."),
+  subject: z.string().trim().min(3, "موضوع باید حداقل ۳ کاراکتر باشد.").max(120, "موضوع واردشده بیش از حد طولانی است."),
+  company: z.string().trim().max(120, "نام شرکت بیش از حد طولانی است.").optional(),
   phoneNumber: z
     .string()
-    .regex(/^\+?[0-9]\d{1,14}$/, "شماره تلفن معتبر وارد کنید."),
-  email: z.string().email("لطفاً یک ایمیل معتبر وارد کنید."),
-  message: z.string().min(10, "پیام باید حداقل ۱۰ کاراکتر باشد."),
+    .trim()
+    .min(7, "شماره تماس معتبر وارد کنید.")
+    .max(20, "شماره تماس معتبر وارد کنید.")
+    .refine((value) => /^\+?[0-9۰-۹٠-٩\s-]+$/.test(value), "شماره تماس معتبر وارد کنید."),
+  email: z.email("لطفاً یک ایمیل معتبر وارد کنید."),
+  message: z.string().trim().min(10, "پیام باید حداقل ۱۰ کاراکتر باشد.").max(2000, "پیام بیش از حد طولانی است."),
 });
 
-export default function ContactForm() {
-  const { toast } = useToast()
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const contactItems = [
+  { icon: Phone, label: "تلفن", value: siteConfig.phoneLabel, href: siteConfig.phoneHref, dir: "ltr" },
+  { icon: Mail, label: "ایمیل", value: siteConfig.email, href: `mailto:${siteConfig.email}`, dir: "ltr" },
+  { icon: MapPin, label: "نشانی", value: siteConfig.address },
+  { icon: Clock3, label: "ساعات پاسخ‌گویی", value: "شنبه تا چهارشنبه، ۸ تا ۱۷" },
+];
 
+export default function ContactForm() {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,184 +57,152 @@ export default function ContactForm() {
     },
   });
 
-  const onSubmit = async (values) => {
+  async function onSubmit(values) {
     setIsSubmitting(true);
-
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, phoneNumber: toEnglishDigits(values.phoneNumber) }),
       });
 
-      if (response.ok) {
-        toast({
-          title: "فرم ارسال شد!",
-          description: "به زودی با شما تماس خواهیم گرفت.",
-        });
-        form.reset();
-      } else {
-        const errorData = await response.json();
-        toast({
-          title: "ارسال ناموفق",
-          description: errorData.error || "مشکلی پیش آمده است.",
-          variant: "destructive",
-        });
-      }
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error);
+
+      toast({
+        title: "پیام شما ارسال شد",
+        description: "کارشناسان ما در اولین فرصت با شما تماس می‌گیرند.",
+      });
+      form.reset();
     } catch (error) {
       toast({
-        title: "ارسال ناموفق",
-        description: "لطفاً بعداً دوباره تلاش کنید.",
+        title: "ارسال پیام انجام نشد",
+        description: error.message || "لطفاً کمی بعد دوباره تلاش کنید.",
         variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-16 px-4 rounded-lg sm:px-6 lg:px-8">
-      <div className="container mx-auto max-w-5xl">
-        <div className="mb-12 text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">تماس با ما</h1>
-          <p className="text-gray-600 text-lg">
-            اگر سوالی دارید یا به اطلاعات بیشتری نیاز دارید، لطفاً با ما تماس
-            بگیرید.
+    <>
+      <section className="border-b bg-card">
+        <div className="site-container py-16 text-center sm:py-20">
+          <p className="eyebrow">در ارتباط باشیم</p>
+          <h1 className="mt-3 text-4xl font-black sm:text-5xl">چطور می‌توانیم کمک کنیم؟</h1>
+          <p className="mx-auto mt-5 max-w-2xl leading-8 text-muted-foreground">
+            برای دریافت کاتالوگ، مشاوره انتخاب محصول یا پیگیری خدمات پس از فروش، فرم را تکمیل کنید.
           </p>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-          <div className="space-y-6 bg-white p-6 rounded-lg shadow-md max-h-fit">
-            <h2 className="text-xl font-semibold text-gray-800">
-              اطلاعات تماس
-            </h2>
-            <div className="flex items-center gap-4">
-              <Mail className="text-primary w-6 h-6" />
-              <span>bonyanmed@yahoo.com</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <Phone className="text-primary w-6 h-6" />
-              <span>۰۲۱-۸۸۳۴۸۹۵۸-۶۰+</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <MapPin className="text-primary w-6 h-6" />
-              <span>تهران-خیابان میرزای شیرازی، پلاک ۸۳، طبقه اول، واحد A۳-</span>
-            </div>
-          </div>
+      <section className="section-spacing">
+        <div className="site-container grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
+          <aside className="space-y-4" aria-label="اطلاعات تماس">
+            {contactItems.map((item) => (
+              <Card key={item.label} className="border-0 shadow-sm ring-1 ring-border">
+                <CardContent className="flex items-start gap-4 p-5">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <item.icon className="size-5" />
+                  </span>
+                  <div>
+                    <h2 className="text-sm font-semibold text-muted-foreground">{item.label}</h2>
+                    {item.href ? (
+                      <a href={item.href} dir={item.dir} className="mt-1 block font-medium hover:text-primary">
+                        {item.value}
+                      </a>
+                    ) : (
+                      <p className="mt-1 leading-7">{item.value}</p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </aside>
 
-          <div className="col-span-2 bg-white p-6 rounded-lg shadow-md">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-              >
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>نام</FormLabel>
-                      <FormControl>
-                        <Input placeholder="نام شما" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="subject"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>موضوع</FormLabel>
-                      <FormControl>
-                        <Input placeholder="موضوع پیام" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="company"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>شرکت (اختیاری)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="نام شرکت" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="phoneNumber"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>شماره تلفن</FormLabel>
-                      <FormControl>
-                        <Input placeholder="شماره تلفن شما" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="col-span-2">
-                      <FormLabel>ایمیل</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="example@domain.com"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem className="col-span-2">
-                      <FormLabel>پیام</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="متن پیام شما"
-                          className="resize-none"
-                          rows={4}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="col-span-2">
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={isSubmitting}
-                  >
+          <Card className="border-0 shadow-sm ring-1 ring-border">
+            <CardContent className="p-6 sm:p-8">
+              <h2 className="text-2xl font-black">ارسال پیام</h2>
+              <p className="mt-2 text-sm text-muted-foreground">فیلدهای ستاره‌دار الزامی هستند.</p>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8 grid gap-5 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>نام و نام خانوادگی *</FormLabel>
+                        <FormControl><Input autoComplete="name" placeholder="نام شما" {...field} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>سازمان یا مرکز درمانی</FormLabel>
+                        <FormControl><Input autoComplete="organization" placeholder="نام مجموعه" {...field} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="phoneNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>شماره تماس *</FormLabel>
+                        <FormControl><Input dir="ltr" inputMode="tel" autoComplete="tel" placeholder="0912 000 0000" {...field} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>ایمیل *</FormLabel>
+                        <FormControl><Input dir="ltr" type="email" autoComplete="email" placeholder="name@example.com" {...field} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="subject"
+                    render={({ field }) => (
+                      <FormItem className="md:col-span-2">
+                        <FormLabel>موضوع *</FormLabel>
+                        <FormControl><Input placeholder="موضوع درخواست" {...field} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem className="md:col-span-2">
+                        <FormLabel>متن پیام *</FormLabel>
+                        <FormControl><Textarea rows={6} placeholder="جزئیات درخواست خود را بنویسید..." {...field} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" size="lg" className="md:col-span-2" disabled={isSubmitting}>
+                    <Send />
                     {isSubmitting ? "در حال ارسال..." : "ارسال پیام"}
                   </Button>
-                </div>
-              </form>
-            </Form>
-          </div>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }

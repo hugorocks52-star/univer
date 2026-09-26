@@ -1,128 +1,83 @@
 "use client";
 
-import { useSignUp } from "@clerk/nextjs";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import * as React from "react";
-import { LucidePersonStanding } from "lucide-react";
+import { useSignUp } from "@clerk/nextjs";
+import { LoaderCircle, MailCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
 import { toast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
-import { OTPInput } from "input-otp";
-import { Minus } from "lucide-react";
 
-export const EmailCode = ({ setError }) => {
+export function EmailCode() {
   const router = useRouter();
-  const { signUp, isLoaded: signUpLoaded, setActive } = useSignUp();
+  const { signUp, isLoaded, setActive } = useSignUp();
+  const [isLoading, setIsLoading] = useState(false);
+  const [otp, setOtp] = useState("");
 
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [otp, setOtp] = React.useState("");
-
-  const verifyCode = async (otp) => {
-    if (!signUpLoaded || typeof otp !== "string") {
-      return null;
-    }
+  async function verifyCode() {
+    if (!isLoaded || otp.length !== 6) return;
     setIsLoading(true);
-
     try {
-      const result = await signUp.attemptEmailAddressVerification({
-        code: otp,
-      });
-      if (result.status === "complete" && result.createdSessionId) {
-        await setActive({ session: result.createdSessionId });
-        router.push("/");
+      const result = await signUp.attemptEmailAddressVerification({ code: otp });
+      if (result.status !== "complete" || !result.createdSessionId) {
+        throw new Error("کد واردشده تأیید نشد.");
       }
-    } catch (err) {
-      setIsLoading(false);
-      setError(
-        err.errors?.[0]?.longMessage ??
-          "خطای ناشناخته، لطفاً با پشتیبانی تماس بگیرید."
-      );
-    }
-  };
-
-  const resendCode = async () => {
-    try {
-      const resend = signUp.prepareEmailAddressVerification();
-      toast({
-        loading: "در حال ارسال کد جدید ...",
-        success: "کد جدید به ایمیل شما ارسال شد.",
-        error: "ارسال کد جدید ناموفق بود. لطفاً دوباره تلاش کنید.",
-      });
-      await resend;
+      await setActive({ session: result.createdSessionId });
+      router.push("/");
     } catch (error) {
-      setError(error.message || "خطایی رخ داده است.");
-      console.error(error);
+      toast({
+        title: "تأیید کد انجام نشد",
+        description: error.errors?.[0]?.longMessage || error.message,
+        variant: "destructive",
+      });
+      setIsLoading(false);
     }
-  };
+  }
+
+  async function resendCode() {
+    if (!isLoaded) return;
+    try {
+      await signUp.prepareEmailAddressVerification();
+      toast({ title: "کد جدید ارسال شد", description: "ایمیل خود را بررسی کنید." });
+    } catch {
+      toast({ title: "ارسال مجدد ناموفق بود", variant: "destructive" });
+    }
+  }
 
   return (
-    <div className="flex flex-col max-w-sm mx-auto text-right">
-      <h1 className="text-4xl font-semibold">کد امنیتی ارسال شد!</h1>
-      <p className="mt-4 text-sm">
-        برای ادامه، لطفاً کد تأیید ۶ رقمی ارسال شده به ایمیل خود را وارد کنید.
-      </p>
-
-      <p className="mt-2 text-sm">
-        کد را دریافت نکردید؟{" "}
-        <button type="button" className="underline" onClick={resendCode}>
-          ارسال مجدد
-        </button>
-      </p>
-
-      <form
-        className="flex flex-col gap-12 mt-10"
-        onSubmit={(e) => {
-          e.preventDefault();
-          verifyCode(otp);
-        }}
-      >
-        <OTPInput
-          data-1p-ignore
-          value={otp}
-          onChange={setOtp}
-          onComplete={() => verifyCode(otp)}
-          maxLength={6}
-          render={({ slots }) => (
-            <div
-              className="flex items-center justify-between"
-              style={{ direction: "ltr" }}
-            >
-              {slots.slice(0, 3).map((slot, idx) => (
-                <Slot key={idx} {...slot} />
-              ))}
-              <Minus className="w-6 h-6 text-black/15" />
-              {slots.slice(3).map((slot, idx) => (
-                <Slot key={idx} {...slot} />
-              ))}
-            </div>
-          )}
-        />
-
-        <button
-          type="submit"
-          className="flex items-center justify-center h-10 gap-2 px-4 text-sm font-semibold text-white bg-black border border-black rounded-lg hover:border-black/30 hover:bg-white hover:text-black"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <LucidePersonStanding className="w-4 h-4 mr-2 animate-spin" />
-          ) : null}
-          ادامه
-        </button>
-      </form>
-    </div>
+    <Card className="border-0 shadow-xl ring-1 ring-border">
+      <CardHeader className="items-center text-center">
+        <span className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+          <MailCheck />
+        </span>
+        <CardTitle className="text-2xl font-black">تأیید ایمیل</CardTitle>
+        <CardDescription>کد شش‌رقمی ارسال‌شده به ایمیل خود را وارد کنید.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={(event) => { event.preventDefault(); verifyCode(); }} className="space-y-6">
+          <div dir="ltr" className="flex justify-center">
+            <InputOTP maxLength={6} value={otp} onChange={setOtp}>
+              <InputOTPGroup>
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+              </InputOTPGroup>
+              <InputOTPSeparator />
+              <InputOTPGroup>
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTP>
+          </div>
+          <Button type="submit" size="lg" className="w-full" disabled={isLoading || otp.length !== 6}>
+            {isLoading && <LoaderCircle className="animate-spin" />}
+            تأیید و ادامه
+          </Button>
+        </form>
+        <Button variant="link" className="mt-4 w-full" onClick={resendCode}>ارسال مجدد کد</Button>
+      </CardContent>
+    </Card>
   );
-};
-
-const Slot = (props) => (
-  <div
-    className={cn(
-      "relative w-10 h-12 text-[2rem] border border-black/20 rounded-lg text-black font-light text-base",
-      "flex items-center justify-center",
-      "transition-all duration-300",
-      "group-hover:border-black/50 group-focus-within:border-black/50",
-      "outline outline-0 outline-black",
-      { "outline-1 ": props.isActive }
-    )}
-  >
-    {props.char !== null && <div>{props.char}</div>}
-  </div>
-);
+}

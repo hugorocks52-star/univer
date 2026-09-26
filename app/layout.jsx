@@ -1,42 +1,57 @@
-import { Vazirmatn } from "next/font/google";
-import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
-import TanstackProvider from "@/providers/TanstackProvider";
-import { isAbsoluteUrl } from "next/dist/shared/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/toaster";
+import "@fontsource-variable/vazirmatn";
+import "./globals.css";
 
-const vazirmatn = Vazirmatn({ subsets: ["arabic"] });
+const siteDescription =
+  "بنیان آتیه جراح، تولیدکننده ابزار جراحی عمومی و تخصصی با برند Univer، استانداردهای بین‌المللی و گارانتی سه‌ساله.";
 
 export const metadata = {
+  metadataBase: new URL("https://universurgical.ir"),
   title: {
-    default: "Bonyane Atieh Jarah | شرکت بنیان آتیه جراح",
-    template: "%s | purplegm",
+    default: "بنیان آتیه جراح | تولیدکننده ابزار جراحی Univer",
+    template: "%s | بنیان آتیه جراح",
   },
-  openGraph: {
-    title: "شرکت بنیان آتیه جراح",
-    description: "Bonyane Atieh Jarah",
-    url: "https://universurgical.ir",
-    siteName: "universurgical",
-  },
-  images: [
-    {
-      url: "/univerp.jpg",
-      width: 100,
-      height: 100,
-    },
-  ],
-  generator: "Univer",
-  applicationName: "Univer",
-  referrer: "origin-when-cross-origin",
+  description: siteDescription,
+  applicationName: "Univer Surgical Instruments",
+  authors: [{ name: "بنیان آتیه جراح" }],
+  creator: "بنیان آتیه جراح",
+  publisher: "بنیان آتیه جراح",
+  category: "تجهیزات پزشکی",
   keywords: [
+    "ابزار جراحی",
+    "تجهیزات پزشکی",
+    "ست جراحی",
+    "ابزار جراحی ایرانی",
+    "بنیان آتیه جراح",
     "Univer",
-    "Universurgical",
-    "یونیور",
-    "شرکت بنیان آتیه جراح",
-    "شرکت ابزار جراحی",
+    "Surgical Instruments",
   ],
   alternates: {
     canonical: "/",
+    languages: { "fa-IR": "/" },
+  },
+  openGraph: {
+    type: "website",
+    locale: "fa_IR",
+    url: "/",
+    siteName: "بنیان آتیه جراح",
+    title: "بنیان آتیه جراح | ابزار جراحی Univer",
+    description: siteDescription,
+    images: [
+      {
+        url: "/05.jpg",
+        width: 1200,
+        height: 690,
+        alt: "مجموعه ابزارهای جراحی برند Univer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "بنیان آتیه جراح | ابزار جراحی Univer",
+    description: siteDescription,
+    images: ["/05.jpg"],
   },
   robots: {
     index: true,
@@ -49,28 +64,27 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
-  authors: [{ name: "Rambod", url: "https://rambodalemi.com" }],
-  creator: "Rambod Alemi",
-  publisher: "Rambod Alemi",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
   icons: {
-    shortcut: "/univerp.jpg",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
   },
-  metadataBase: new URL("https://universurgical.ir"),
-  manifest: isAbsoluteUrl("/site.webmanifest"),
+  manifest: "/manifest.webmanifest",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#a91d2d",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider dynamic>
+    <ClerkProvider>
       <html
         dir="rtl"
-        lang="fa"
-        className={`scroll-smooth antialiased ${vazirmatn.className}`}
+        lang="fa-IR"
+        data-scroll-behavior="smooth"
+        className="scroll-smooth"
       >
         <body>
           {children}

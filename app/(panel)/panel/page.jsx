@@ -2,7 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -13,21 +13,7 @@ const AdminPanel = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      router.push("/sign-in");
-    }
-
-    if (isLoaded && isSignedIn && user?.publicMetadata?.role !== "admin") {
-      router.push("/not-authorized");
-    }
-
-    if (isLoaded && isSignedIn && user?.publicMetadata?.role === "admin") {
-      fetchContacts();
-    }
-  }, [isLoaded, isSignedIn, user, router]);
-
-  const fetchContacts = async () => {
+  const fetchContacts = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch("/api/contact", { method: "GET" });
@@ -44,7 +30,21 @@ const AdminPanel = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.push("/sign-in");
+    }
+
+    if (isLoaded && isSignedIn && user?.publicMetadata?.role !== "admin") {
+      router.push("/not-authorized");
+    }
+
+    if (isLoaded && isSignedIn && user?.publicMetadata?.role === "admin") {
+      fetchContacts();
+    }
+  }, [fetchContacts, isLoaded, isSignedIn, user, router]);
 
   const handleDeleteContact = async (id) => {
     try {

@@ -1,21 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-      remotePatterns: [
-        {
-          protocol: "http",
-          hostname: "**",  // Allows any domain/subdomain
-        },
-        {
-          protocol: "https",
-          hostname: "**",  // Allows any domain/subdomain
-        },
-      ],
-      deviceSizes: [320, 420, 768, 1024, 1200],
-      imageSizes: [16, 32, 48, 64, 96],
-    },
-    reactStrictMode: true,
-  };
-  
-  export default nextConfig;
-  
+  images: {
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [320, 640, 768, 1024, 1280, 1536],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
+  },
+  turbopack: {
+    root: process.cwd(),
+  },
+  reactStrictMode: true,
+};
+
+export default nextConfig;

@@ -1,129 +1,108 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { ArrowLeft, BookOpen, CheckCircle2, ShieldCheck, Wrench } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
-const page = () => {
-  return (
-    <div>
-      <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-        <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
-          <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
-            Customer stories
-          </h2>
-          <p className="mt-1 text-gray-600 dark:text-neutral-400">
-            See how game-changing companies are making the most of every
-            engagement with Preline.
-          </p>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Link
-            className="group border hover:bg-gray-100 rounded-xl p-5 transition-all dark:hover:bg-white/10"
-            href="#"
-          >
-            <div className="aspect-w-16 aspect-h-10">
-              <Image
-                width={1000}
-                height={1000}
-                className="w-full object-cover rounded-xl"
-                src="https://images.unsplash.com/photo-1657299171054-e679f630a776?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-                alt="Image Description"
-              />
-            </div>
-            <h3 className="mt-5 text-xl text-gray-800 dark:text-neutral-300 dark:hover:text-white">
-              Atlassian powers sales and support at scale with Preline.
-            </h3>
-            <p className="mt-3 inline-flex items-center gap-x-1 text-sm font-semibold text-gray-800 dark:text-neutral-200">
-              Learn more
-              <svg
-                className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </p>
-          </Link>
-
-          <Link
-            className="group border hover:bg-gray-100 rounded-xl p-5 transition-all dark:hover:bg-white/10"
-            href="#"
-          >
-            <div className="aspect-w-16 aspect-h-10">
-              <Image
-                width={1000}
-                height={1000}
-                className="w-full object-cover rounded-xl"
-                src="https://images.unsplash.com/photo-1657299171054-e679f630a776?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-                alt="Image Description"
-              />
-            </div>
-            <h3 className="mt-5 text-xl text-gray-800 dark:text-neutral-300 dark:hover:text-white">
-              Atlassian powers sales and support at scale with Preline.
-            </h3>
-            <p className="mt-3 inline-flex items-center gap-x-1 text-sm font-semibold text-gray-800 dark:text-neutral-200">
-              Learn more
-              <svg
-                className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </p>
-          </Link>
-
-          <Link
-            className="group border hover:bg-gray-100 rounded-xl p-5 transition-all dark:hover:bg-white/10"
-            href="#"
-          >
-            <div className="aspect-w-16 aspect-h-10">
-              <Image
-                width={1000}
-                height={1000}
-                className="w-full object-cover rounded-xl"
-                src="https://images.unsplash.com/photo-1657299171054-e679f630a776?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-                alt="Image Description"
-              />
-            </div>
-            <h3 className="mt-5 text-xl text-gray-800 dark:text-neutral-300 dark:hover:text-white">
-              Atlassian powers sales and support at scale with Preline.
-            </h3>
-            <p className="mt-3 inline-flex items-center gap-x-1 text-sm font-semibold text-gray-800 dark:text-neutral-200">
-              Learn more
-              <svg
-                className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </p>
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+export const metadata = {
+  title: "دانشنامه ابزار جراحی",
+  description:
+    "راهنمای انتخاب، نگهداری، کنترل کیفیت و افزایش طول عمر ابزارهای جراحی برای بیمارستان‌ها و مراکز درمانی.",
+  alternates: { canonical: "/articles" },
+  openGraph: {
+    title: "دانشنامه ابزار جراحی Univer",
+    description: "نکات کاربردی برای انتخاب و نگهداری ابزار جراحی.",
+    url: "/articles",
+  },
 };
 
-export default page;
+const articles = [
+  {
+    icon: ShieldCheck,
+    category: "کنترل کیفیت",
+    title: "چرا جنس استنلس استیل در ابزار جراحی اهمیت دارد؟",
+    description: "ترکیب آلیاژ، سختی، مقاومت در برابر خوردگی و کیفیت پرداخت سطح، عملکرد و طول عمر ابزار را تعیین می‌کند.",
+    image: "/05.jpg",
+  },
+  {
+    icon: Wrench,
+    category: "نگهداری",
+    title: "اصول مراقبت از ابزار جراحی پس از هر بار استفاده",
+    description: "پاک‌سازی به‌موقع، بررسی مفاصل و لبه‌ها و رعایت چرخه صحیح استریلیزاسیون از آسیب زودهنگام جلوگیری می‌کند.",
+    image: "/02.JPG",
+  },
+  {
+    icon: CheckCircle2,
+    category: "راهنمای انتخاب",
+    title: "چک‌لیست ارزیابی یک ست جراحی حرفه‌ای",
+    description: "هماهنگی قطعات، ارگونومی، قابلیت ردیابی و خدمات پس از فروش را پیش از انتخاب یک ست کامل بررسی کنید.",
+    image: "/03.JPG",
+  },
+];
+
+export default function ArticlesPage() {
+  return (
+    <>
+      <section className="border-b bg-card">
+        <div className="site-container py-16 text-center sm:py-20 lg:py-24">
+          <Badge variant="secondary" className="rounded-full">
+            <BookOpen className="me-2 size-4" />
+            دانشنامه Univer
+          </Badge>
+          <h1 className="mx-auto mt-5 max-w-3xl text-4xl font-black leading-tight sm:text-5xl">
+            دانش کاربردی برای انتخاب و نگهداری بهتر ابزار جراحی
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl leading-8 text-muted-foreground">
+            مجموعه‌ای فشرده از نکات فنی برای مدیران تجهیزات پزشکی، کارشناسان CSSD و تیم‌های اتاق عمل.
+          </p>
+        </div>
+      </section>
+
+      <section className="section-spacing">
+        <div className="site-container grid gap-6 lg:grid-cols-3">
+          {articles.map((article) => (
+            <Card key={article.title} className="overflow-hidden border-0 shadow-sm ring-1 ring-border">
+              <article className="h-full">
+                <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-primary">
+                    <article.icon className="size-4" />
+                    {article.category}
+                  </div>
+                  <h2 className="mt-4 text-xl font-bold leading-8">{article.title}</h2>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{article.description}</p>
+                </CardContent>
+              </article>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="pb-16 sm:pb-20 lg:pb-28">
+        <div className="site-container">
+          <div className="flex flex-col items-start gap-6 rounded-[2rem] border bg-secondary/50 p-8 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="text-2xl font-black">برای انتخاب ابزار مناسب به راهنمایی نیاز دارید؟</h2>
+              <p className="mt-3 text-muted-foreground">کارشناسان ما برای بررسی نیاز مرکز درمانی شما در دسترس هستند.</p>
+            </div>
+            <Button asChild size="lg" className="shrink-0 rounded-full">
+              <Link href="/contact">
+                مشاوره با ما
+                <ArrowLeft />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

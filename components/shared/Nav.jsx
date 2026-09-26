@@ -1,6 +1,11 @@
 "use client";
 
-import { useUser, useAuth } from "@clerk/nextjs";
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useAuth, useUser } from "@clerk/nextjs";
+import { LogIn, Menu, Phone, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -9,203 +14,126 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import { Menu, MoveRight } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
+import { navigationItems, siteConfig } from "@/lib/site-data";
+import { cn } from "@/lib/utils";
 
 export default function Nav() {
-  const navigationItems = [
-    {
-      title: "خانه",
-      href: "/",
-      description: "",
-    },
-    {
-      title: "ست های ابزار جراحی",
-      description:
-        "درصورت نیاز به مشاهده ست ها میتوانید کاتالوگ مارا دانلود کنید :",
-      items: [
-        { title: "دسته بیستوری", href: "/catalogs" },
-        { title: "چاقوی چشمی", href: "/catalogs" },
-        { title: "ابزار پروستات", href: "/catalogs" },
-        { title: "انواع پنس ها", href: "/catalogs" },
-      ],
-    },
-    {
-      title: "بنیان آتیه جراح",
-      description: "شرکت تجهیزات پزشکی بنیان آتیه جراح",
-      items: [
-        { title: "درباره ما", href: "/about" },
-        { title: "تماس با ما", href: "/contact" },
-      ],
-    },
-  ];
-
-  const { user, isSignedIn } = useUser();
+  const pathname = usePathname();
+  const { isSignedIn, user } = useUser();
   const { signOut } = useAuth();
+  const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur">
-      <div className="container mx-auto flex items-center justify-between p-4">
-        {/* Logo */}
-        <div className="flex items-center">
-          <Link href="/">
-            <Image src="/univerp.jpg" width={80} height={80} alt="Logo" />
-          </Link>
-        </div>
+    <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur-xl">
+      <div className="site-container flex h-20 items-center justify-between gap-5">
+        <Link href="/" className="flex shrink-0 items-center gap-3" aria-label="صفحه اصلی بنیان آتیه جراح">
+          <span className="flex h-12 w-24 items-center justify-center overflow-hidden rounded-lg border bg-white px-2">
+            <Image
+              src="/univerp.jpg"
+              width={153}
+              height={66}
+              alt="Univer Surgical Instruments"
+              className="h-auto w-full"
+              priority
+            />
+          </span>
+          <span className="hidden leading-tight sm:block">
+            <span className="block text-sm font-bold">{siteConfig.name}</span>
+            <span className="text-xs text-muted-foreground">تجهیزات پزشکی و ابزار جراحی</span>
+          </span>
+        </Link>
 
-        {/* Desktop Navigation */}
-        <div className="justify-start items-center text-right gap-4 lg:flex hidden flex-row">
-          <NavigationMenu className="flex justify-start items-start">
-            <NavigationMenuList className="flex justify-start gap-4 flex-row">
-              {navigationItems.map((item) => (
-                <NavigationMenuItem key={item.title}>
-                  {item.href ? (
-                    <>
-                      <Link href={item.href}>
-                        <NavigationMenuLink>
-                          <Button variant="ghost">{item.title}</Button>
-                        </NavigationMenuLink>
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <NavigationMenuTrigger className="font-medium text-sm">
-                        {item.title}
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent className="!w-[450px] p-4">
-                        <div className="flex flex-col lg:grid grid-cols-2 gap-4">
-                          <div className="flex flex-col h-full justify-between">
-                            <div className="flex flex-col">
-                              <p className="text-base">{item.title}</p>
-                              <p className="text-muted-foreground text-xs">
-                                {item.description}
-                              </p>
-                            </div>
-                            <Link href="/catalogs">
-                              <Button size="sm" className="mt-10 w-full">
-                                مشاهده کاتالوگ
-                              </Button>
-                            </Link>
-                          </div>
-                          <div className="flex flex-col text-sm h-full justify-start">
-                            {item.items?.map((subItem) => (
-                              <NavigationMenuLink
-                                href={subItem.href}
-                                key={subItem.title}
-                                className="flex flex-row justify-between items-center hover:bg-muted py-2 px-4 rounded"
-                              >
-                                <span>{subItem.title}</span>
-                                <MoveRight className="w-4 h-4 text-muted-foreground" />
-                              </NavigationMenuLink>
-                            ))}
-                          </div>
-                        </div>
-                      </NavigationMenuContent>
-                    </>
-                  )}
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="ناوبری اصلی">
+          {navigationItems.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <Button key={item.href} asChild variant="ghost" size="sm">
+                <Link
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(active && "bg-accent text-accent-foreground")}
+                >
+                  {item.title}
+                </Link>
+              </Button>
+            );
+          })}
+        </nav>
 
-        {/* Admin Panel and Login/Logout */}
-        <div className="hidden lg:flex gap-4 items-center">
+        <div className="hidden items-center gap-2 lg:flex">
+          <Button asChild variant="outline" size="sm">
+            <a href={siteConfig.phoneHref} dir="ltr">
+              <Phone />
+              {siteConfig.phoneLabel}
+            </a>
+          </Button>
           {isSignedIn ? (
             <>
               {user?.publicMetadata?.role === "admin" && (
-                <Link href="/panel">
-                  <Button variant="outline">پنل مدیریت</Button>
-                </Link>
+                <Button asChild size="sm">
+                  <Link href="/panel">
+                    <ShieldCheck />
+                    پنل مدیریت
+                  </Link>
+                </Button>
               )}
-              <Button variant="destructive" onClick={() => signOut()}>
+              <Button variant="ghost" size="sm" onClick={() => signOut()}>
                 خروج
               </Button>
             </>
           ) : (
-            <Link href="/sign-in">
-              <Button variant="default">ورود</Button>
-            </Link>
+            <Button asChild size="sm">
+              <Link href="/sign-in">
+                <LogIn />
+                ورود
+              </Link>
+            </Button>
           )}
         </div>
 
-        {/* Mobile Menu */}
-        <div className="lg:hidden">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost">
-                <Menu className="w-6 h-6" />
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="lg:hidden" aria-label="باز کردن منو">
+              <Menu />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[min(88vw,22rem)] px-5">
+            <SheetHeader className="text-right">
+              <SheetTitle>منوی سایت</SheetTitle>
+            </SheetHeader>
+            <nav className="mt-8 flex flex-col gap-2" aria-label="ناوبری موبایل">
+              {navigationItems.map((item) => (
+                <Button
+                  key={item.href}
+                  asChild
+                  variant={pathname === item.href ? "secondary" : "ghost"}
+                  className="justify-start text-base"
+                  onClick={() => setOpen(false)}
+                >
+                  <Link href={item.href}>{item.title}</Link>
+                </Button>
+              ))}
+              <Button asChild variant="outline" className="mt-4 justify-center">
+                <a href={siteConfig.phoneHref} dir="ltr">
+                  <Phone />
+                  {siteConfig.phoneLabel}
+                </a>
               </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="p-4">
-              <SheetHeader>
-                <SheetTitle className="text-lg font-bold">منو</SheetTitle>
-              </SheetHeader>
-              <div className="flex flex-col gap-4 mt-6">
-                {navigationItems.map((item) => (
-                  <div key={item.title}>
-                    {item.href ? (
-                      <Link href={item.href}>
-                        <Button variant="ghost" className="w-full">
-                          {item.title}
-                        </Button>
-                      </Link>
-                    ) : (
-                      <>
-                        <p className="font-bold">{item.title}</p>
-                        <div className="ml-4">
-                          {item.items?.map((subItem) => (
-                            <Link key={subItem.title} href={subItem.href}>
-                              <Button
-                                variant="ghost"
-                                className="text-muted-foreground w-full justify-start"
-                              >
-                                {subItem.title}
-                              </Button>
-                            </Link>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                ))}
-                {isSignedIn ? (
-                  <>
-                    {user?.publicMetadata?.role === "admin" && (
-                      <Link href="/panel">
-                        <Button variant="outline" className="w-full">
-                          پنل مدیریت
-                        </Button>
-                      </Link>
-                    )}
-                    <Button
-                      variant="destructive"
-                      onClick={() => signOut()}
-                      className="w-full"
-                    >
-                      خروج
-                    </Button>
-                  </>
-                ) : (
+              {isSignedIn ? (
+                <Button variant="ghost" onClick={() => signOut()}>
+                  خروج از حساب
+                </Button>
+              ) : (
+                <Button asChild onClick={() => setOpen(false)}>
                   <Link href="/sign-in">
-                    <Button variant="default" className="w-full">
-                      ورود
-                    </Button>
+                    <LogIn />
+                    ورود به حساب
                   </Link>
-                )}
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+                </Button>
+              )}
+            </nav>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   );

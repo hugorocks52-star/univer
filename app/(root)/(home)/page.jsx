@@ -1,26 +1,235 @@
-import Main from "@/components/home/Main";
-import React from "react";
-import Contact from "@/components/Contact/Contact";
-import MiniCards from "@/components/home/MiniCards";
-import ThirdSection from "@/components/home/ThirdSection";
-import Marketing from "@/components/home/Marketing";
-import Slider from "@/components/home/Slider";
-import CatPre from "@/components/home/cat-preview";
-import Hero from "@/components/home/Hero";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowLeft,
+  Award,
+  Building2,
+  CheckCircle2,
+  Download,
+  Microscope,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { productCategories, siteConfig } from "@/lib/site-data";
+import { formatPersianNumber, toPersianDigits } from "@/utils/persian";
 
-const page = () => {
+const standards = [
+  "مواد اولیه استنلس استیل منتخب",
+  "کنترل کیفیت مرحله‌به‌مرحله",
+  "گارانتی تعویض سه‌ساله",
+];
+
+export default function HomePage() {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    name: siteConfig.name,
+    alternateName: "Univer Surgical Instruments",
+    url: siteConfig.url,
+    logo: `${siteConfig.url}/univerp.jpg`,
+    image: `${siteConfig.url}/05.jpg`,
+    description: siteConfig.description,
+    email: siteConfig.email,
+    telephone: "+982188348958",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "خیابان میرزای شیرازی، پلاک ۸۳، طبقه اول، واحد A۳",
+      addressLocality: "تهران",
+      addressCountry: "IR",
+    },
+  };
+
   return (
     <>
-      <Main />
-      <Slider />
-      <Hero />
-      <Marketing />
-      <CatPre />
-      <Contact />
-      <ThirdSection />
-      <MiniCards />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+
+      <section className="relative overflow-hidden border-b bg-card">
+        <div className="absolute inset-x-0 top-0 h-px bg-primary" />
+        <div className="site-container grid min-h-[calc(100svh-5rem)] items-center gap-12 py-16 lg:grid-cols-[0.92fr_1.08fr] lg:py-20">
+          <div className="relative z-10">
+            <h1 className="max-w-2xl text-4xl font-black leading-[1.35] tracking-tight sm:text-5xl lg:text-6xl">
+              دقتی که جراح به آن{" "}
+              <span className="block text-primary">اعتماد می‌کند</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">
+              تولید ابزار جراحی عمومی و تخصصی با برند Univer؛ حاصل مهندسی دقیق، مواد اولیه منتخب و کنترل کیفیت مستمر برای مراکز درمانی سراسر ایران.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="lg" className="h-12 rounded-full px-6">
+                <Link href="/catalogs">
+                  مشاهده محصولات
+                  <ArrowLeft />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="h-12 rounded-full px-6">
+                <Link href="/contact">دریافت مشاوره</Link>
+              </Button>
+            </div>
+            <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted-foreground">
+              {standards.map((item) => (
+                <span key={item} className="flex items-center gap-2">
+                  <CheckCircle2 className="size-4 text-primary" />
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative lg:ps-8">
+            <div className="relative min-h-[28rem] overflow-hidden rounded-[2rem] border bg-muted shadow-2xl shadow-slate-900/10 sm:min-h-[36rem]">
+              <Image
+                src="/05.jpg"
+                alt="مجموعه ابزارهای جراحی فلزی برند Univer"
+                fill
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-transparent" />
+              <div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/20 bg-slate-950/70 p-5 text-white backdrop-blur-md sm:inset-x-8 sm:bottom-8">
+                <p className="text-xs text-white/65">UNIVER SURGICAL INSTRUMENTS</p>
+                <p className="mt-2 text-lg font-bold">مهندسی شده برای عملکرد مطمئن در اتاق عمل</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b bg-secondary/40" aria-label="آمار و دستاوردها">
+        <div className="site-container grid divide-y sm:grid-cols-3 sm:divide-x sm:divide-x-reverse sm:divide-y-0">
+          {[
+            { icon: Building2, value: `${formatPersianNumber(500)}+`, label: "بیمارستان مصرف‌کننده" },
+            { icon: ShieldCheck, value: toPersianDigits(3), label: "سال گارانتی تعویض" },
+            { icon: Award, value: toPersianDigits(3), label: "استاندارد و تأییدیه کیفی" },
+          ].map((stat) => (
+            <div key={stat.label} className="flex items-center justify-center gap-4 px-5 py-8">
+              <span className="flex size-11 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <stat.icon className="size-5" />
+              </span>
+              <div>
+                <strong className="block text-2xl font-black">{stat.value}</strong>
+                <span className="text-sm text-muted-foreground">{stat.label}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-spacing">
+        <div className="site-container">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-2xl">
+              <p className="eyebrow">دامنه محصولات</p>
+              <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">برای هر مرحله از جراحی، ابزار مناسب</h2>
+              <p className="mt-4 leading-8 text-muted-foreground">
+                محصولات Univer برای نیازهای عمومی و تخصصی طراحی شده‌اند و جزئیات هر قطعه در کاتالوگ رسمی در دسترس است.
+              </p>
+            </div>
+            <Button asChild variant="outline" className="w-fit rounded-full">
+              <Link href="/catalogs">
+                همه محصولات
+                <ArrowLeft />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {productCategories.map((category, index) => (
+              <Card key={category.title} className="group overflow-hidden border-0 bg-card shadow-sm ring-1 ring-border">
+                <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                  <Image
+                    src={category.image}
+                    alt={category.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                  <Badge className="absolute start-4 top-4 rounded-full bg-white/90 text-foreground hover:bg-white">
+                    {toPersianDigits(index + 1).padStart(2, "۰")}
+                  </Badge>
+                </div>
+                <CardContent className="p-5">
+                  <h3 className="font-bold">{category.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-muted-foreground">{category.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-spacing border-y bg-slate-950 text-white">
+        <div className="site-container grid items-center gap-12 lg:grid-cols-2">
+          <div className="relative min-h-[32rem] overflow-hidden rounded-[1.75rem] border border-white/10 bg-white">
+            <Image
+              src="/07.png"
+              alt="نمونه ابزار جراحی تخصصی Univer"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-contain"
+            />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-red-300">کیفیت قابل ردیابی</p>
+            <h2 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">از انتخاب آلیاژ تا آخرین مرحله کنترل کیفیت</h2>
+            <p className="mt-6 leading-8 text-slate-300">
+              ابزارهای Univer با بهره‌گیری از استنلس استیل مارتنزیتی و روش‌های دقیق تولید ساخته می‌شوند. فرایند کنترل کیفیت برای دستیابی به دوام، ارگونومی و عملکرد یکنواخت در هر قطعه طراحی شده است.
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {[
+                [Microscope, "کنترل دقیق", "بازبینی مشخصات فنی در مراحل تولید"],
+                [Award, "استاندارد جهانی", "ISO 13485، ISO 9001 و نشان CE اروپا"],
+              ].map(([Icon, title, description]) => (
+                <div key={title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                  <Icon className="size-6 text-red-300" />
+                  <h3 className="mt-4 font-bold">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-400">{description}</p>
+                </div>
+              ))}
+            </div>
+            <Button asChild variant="secondary" size="lg" className="mt-8 rounded-full">
+              <Link href="/about">
+                داستان و استانداردهای ما
+                <ArrowLeft />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-spacing">
+        <div className="site-container">
+          <div className="relative overflow-hidden rounded-[2rem] border bg-card px-6 py-12 shadow-sm sm:px-12 lg:px-16 lg:py-16">
+            <div className="absolute inset-y-0 start-0 w-1.5 bg-primary" />
+            <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-2xl">
+                <p className="eyebrow">کاتالوگ رسمی Univer</p>
+                <h2 className="mt-3 text-3xl font-black sm:text-4xl">کد، تصویر و مشخصات ابزارها در یک مجموعه</h2>
+                <p className="mt-4 leading-8 text-muted-foreground">
+                  کاتالوگ محصولات را آنلاین مرور کنید یا نسخه PDF را برای بررسی و سفارش دانلود نمایید.
+                </p>
+              </div>
+              <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+                <Button asChild size="lg" className="rounded-full">
+                  <Link href="/catalogs">مرور کاتالوگ</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="rounded-full">
+                  <a href="/univercat.pdf" download>
+                    <Download />
+                    دانلود PDF
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
-};
-
-export default page;
+}

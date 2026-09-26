@@ -1,7 +1,17 @@
-import Contact from "@/components/Contact/Contact";
+import ContactForm from "@/components/Contact/Contact";
 
-const Page = () => {
-  return <Contact />;
+export const metadata = {
+  title: "تماس با ما",
+  description:
+    "برای مشاوره خرید، دریافت اطلاعات محصولات و ارتباط با شرکت بنیان آتیه جراح با ما تماس بگیرید.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "تماس با بنیان آتیه جراح",
+    description: "مشاوره و پاسخ‌گویی درباره ابزارهای جراحی Univer.",
+    url: "/contact",
+  },
 };
 
-export default Page;
+export default function ContactPage() {
+  return <ContactForm />;
+}

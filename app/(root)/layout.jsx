@@ -1,16 +1,12 @@
 import Footer from "@/components/shared/Footer";
 import Nav from "@/components/shared/Nav";
 
-export default function RootLayout({ children }) {
+export default function PublicLayout({ children }) {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Nav />
-      <div className="w-full">
-        <div className="sm:p-4 space-y-4 sm:space-y-6 relative overflow-x-clip">
-          {children}
-        </div>
-      </div>
+      <main className="flex-1">{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }

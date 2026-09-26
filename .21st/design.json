@@ -1,0 +1,188 @@
+{
+  "version": 1,
+  "project": {
+    "name": "univer",
+    "productType": null,
+    "stack": [
+      "nextjs",
+      "react",
+      "shadcn",
+      "tailwind-v3"
+    ]
+  },
+  "sources": {
+    "tokens": [
+      "app/globals.css"
+    ],
+    "components": [
+      "components/ui"
+    ],
+    "assets": [],
+    "instructions": []
+  },
+  "design": {
+    "colorMode": "light-and-dark",
+    "colors": {
+      "--background": {
+        "value": "0 0% 3.9%",
+        "source": "app/globals.css"
+      },
+      "--foreground": {
+        "value": "0 0% 98%",
+        "source": "app/globals.css"
+      },
+      "--card-foreground": {
+        "value": "0 0% 98%",
+        "source": "app/globals.css"
+      },
+      "--popover-foreground": {
+        "value": "0 0% 98%",
+        "source": "app/globals.css"
+      },
+      "--primary": {
+        "value": "0 0% 98%",
+        "source": "app/globals.css"
+      },
+      "--primary-foreground": {
+        "value": "0 0% 9%",
+        "source": "app/globals.css"
+      },
+      "--secondary": {
+        "value": "0 0% 14.9%",
+        "source": "app/globals.css"
+      },
+      "--secondary-foreground": {
+        "value": "0 0% 98%",
+        "source": "app/globals.css"
+      },
+      "--muted": {
+        "value": "0 0% 14.9%",
+        "source": "app/globals.css"
+      },
+      "--muted-foreground": {
+        "value": "0 0% 63.9%",
+        "source": "app/globals.css"
+      },
+      "--accent": {
+        "value": "0 0% 14.9%",
+        "source": "app/globals.css"
+      },
+      "--accent-foreground": {
+        "value": "0 0% 98%",
+        "source": "app/globals.css"
+      },
+      "--destructive": {
+        "value": "0 62.8% 30.6%",
+        "source": "app/globals.css"
+      },
+      "--destructive-foreground": {
+        "value": "0 0% 98%",
+        "source": "app/globals.css"
+      },
+      "--border": {
+        "value": "0 0% 14.9%",
+        "source": "app/globals.css"
+      },
+      "--ring": {
+        "value": "0 0% 83.1%",
+        "source": "app/globals.css"
+      },
+      "--chart-1": {
+        "value": "220 70% 50%",
+        "source": "app/globals.css"
+      },
+      "--chart-2": {
+        "value": "160 60% 45%",
+        "source": "app/globals.css"
+      },
+      "--chart-3": {
+        "value": "30 80% 55%",
+        "source": "app/globals.css"
+      },
+      "--chart-4": {
+        "value": "280 65% 60%",
+        "source": "app/globals.css"
+      },
+      "--chart-5": {
+        "value": "340 75% 55%",
+        "source": "app/globals.css"
+      }
+    },
+    "typography": {},
+    "spacing": {},
+    "radius": {
+      "--radius": {
+        "value": "0.5rem",
+        "source": "app/globals.css"
+      }
+    },
+    "shadows": {},
+    "motion": {},
+    "density": "unknown"
+  },
+  "components": {
+    "installed": [
+      "badge",
+      "button",
+      "card",
+      "carousel",
+      "form",
+      "input",
+      "input-otp",
+      "label",
+      "navigation-menu",
+      "neon-gradient-card",
+      "sheet",
+      "table",
+      "textarea",
+      "toast",
+      "toaster",
+      "word-pull-up",
+      "word-rotate"
+    ],
+    "preferredPrimitives": [
+      "radix-ui"
+    ],
+    "patterns": []
+  },
+  "constraints": {
+    "must": [],
+    "avoid": []
+  },
+  "decisions": [
+    "Use a restrained clinical visual system with Univer red, warm neutral surfaces, generous whitespace, and real product photography.",
+    "Treat Persian RTL layouts and Persian digits as first-class requirements across navigation, forms, and content.",
+    "Keep the existing Radix-backed shadcn architecture while refreshing primitives with the current shadcn CLI."
+  ],
+  "evidence": [
+    {
+      "fact": "components.installed",
+      "source": "components/ui"
+    },
+    {
+      "fact": "design.colorMode:light-and-dark",
+      "source": "app/globals.css"
+    },
+    {
+      "fact": "design.tokens",
+      "source": "app/globals.css"
+    },
+    {
+      "fact": "project.stack:nextjs",
+      "source": "package.json"
+    },
+    {
+      "fact": "project.stack:react",
+      "source": "package.json"
+    },
+    {
+      "fact": "project.stack:shadcn",
+      "source": "components.json"
+    },
+    {
+      "fact": "project.stack:tailwind-v3",
+      "source": "package.json"
+    }
+  ],
+  "generatedAt": "2026-09-26T11:37:41.615Z"
+}

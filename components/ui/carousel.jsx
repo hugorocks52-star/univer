@@ -154,7 +154,7 @@ const CarouselContent = React.forwardRef(({ className, ...props }, ref) => {
             ref={ref}
             className={cn(
                'flex',
-               orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col',
+               orientation === 'horizontal' ? '-ms-4' : '-mt-4 flex-col',
                className
             )}
             {...props} />
@@ -173,7 +173,7 @@ const CarouselItem = React.forwardRef(({ className, ...props }, ref) => {
          aria-roledescription="slide"
          className={cn(
             'min-w-0 shrink-0 grow-0 basis-full',
-            orientation === 'horizontal' ? 'pl-4' : 'pt-4',
+            orientation === 'horizontal' ? 'ps-4' : 'pt-4',
             className
          )}
          {...props} />)
@@ -190,8 +190,8 @@ const CarouselPrevious = React.forwardRef(({ className, variant = 'outline', siz
          variant={variant}
          size={size}
          className={cn('absolute  size-8 rounded-full', orientation === 'horizontal'
-            ? '-left-12 top-1/2 -translate-y-1/2'
-            : '-top-12 left-1/2 -translate-x-1/2 rotate-90', className)}
+            ? '-start-12 top-1/2 -translate-y-1/2'
+            : '-top-12 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 rotate-90', className)}
          disabled={!canScrollPrev}
          onClick={scrollPrev}
          {...props}>
@@ -211,8 +211,8 @@ const CarouselNext = React.forwardRef(({ className, variant = 'outline', size = 
          variant={variant}
          size={size}
          className={cn('absolute size-8 rounded-full', orientation === 'horizontal'
-            ? '-right-12 top-1/2 -translate-y-1/2'
-            : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90', className)}
+            ? '-end-12 top-1/2 -translate-y-1/2'
+            : '-bottom-12 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 rotate-90', className)}
          disabled={!canScrollNext}
          onClick={scrollNext}
          {...props}>
@@ -237,9 +237,9 @@ const dotsContainerVariants = cva('absolute flex justify-center', {
       },
       position: {
          top: '-top-10',
-         right: '-right-10',
+         right: '-end-10',
          bottom: '-bottom-10',
-         left: '-left-10',
+         left: '-start-10',
       },
       gap: {
          default: 'gap-2',
