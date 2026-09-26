@@ -58,14 +58,15 @@ export default function HomePage() {
           priority
         />
         <div className="absolute inset-0 bg-slate-950/35" />
+        <div className="absolute inset-0 bg-gradient-to-l from-slate-950/85 via-slate-950/45 to-slate-950/10" />
         <div className="site-container relative z-10 flex min-h-[calc(100svh-5rem)] items-center py-12 sm:py-16">
-          <div className="w-full max-w-2xl rounded-[2rem] border border-white/15 bg-slate-950/75 p-6 shadow-2xl shadow-black/30 backdrop-blur-md sm:p-9 lg:p-12">
-            <p className="mb-4 text-sm font-semibold text-red-300">شرکت بنیان آتیه جراح | Univer</p>
-            <h1 className="text-4xl font-black leading-[1.35] tracking-tight sm:text-5xl lg:text-6xl">
+          <div className="max-w-2xl [text-shadow:0_2px_14px_rgba(0,0,0,0.8)]">
+            <p className="mb-4 text-sm font-bold text-white/90">شرکت بنیان آتیه جراح | Univer</p>
+            <h1 className="text-4xl font-black leading-[1.35] tracking-tight text-white sm:text-5xl lg:text-6xl">
               دقتی که جراح به آن{" "}
-              <span className="block text-red-300">اعتماد می‌کند</span>
+              <span className="block text-red-200">اعتماد می‌کند</span>
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-8 text-white/80 sm:text-lg">
+            <p className="mt-6 max-w-xl text-base font-medium leading-8 text-white sm:text-lg">
               تولید ابزار جراحی عمومی و تخصصی با برند Univer؛ حاصل مهندسی دقیق، مواد اولیه منتخب و کنترل کیفیت مستمر برای مراکز درمانی سراسر ایران.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -84,10 +85,10 @@ export default function HomePage() {
                 <Link href="/contact">دریافت مشاوره</Link>
               </Button>
             </div>
-            <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-white/75">
+            <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium text-white/90">
               {standards.map((item) => (
                 <span key={item} className="flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-red-300" />
+                  <CheckCircle2 className="size-4 text-red-200" />
                   {item}
                 </span>
               ))}
