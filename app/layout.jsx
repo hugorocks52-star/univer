@@ -1,5 +1,6 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
+import { siteConfig } from "@/lib/site-data";
 import "@fontsource-variable/vazirmatn";
 import "./globals.css";
 
@@ -7,7 +8,7 @@ const siteDescription =
   "بنیان آتیه جراح، تولیدکننده ابزار جراحی عمومی و تخصصی با برند Univer، استانداردهای بین‌المللی و گارانتی سه‌ساله.";
 
 export const metadata = {
-  metadataBase: new URL("https://universurgical.ir"),
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "بنیان آتیه جراح | تولیدکننده ابزار جراحی Univer",
     template: "%s | بنیان آتیه جراح",

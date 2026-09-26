@@ -8,7 +8,6 @@ import {
   Download,
   Microscope,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -49,15 +48,24 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
 
-      <section className="relative overflow-hidden border-b bg-card">
-        <div className="absolute inset-x-0 top-0 h-px bg-primary" />
-        <div className="site-container grid min-h-[calc(100svh-5rem)] items-center gap-12 py-16 lg:grid-cols-[0.92fr_1.08fr] lg:py-20">
-          <div className="relative z-10">
-            <h1 className="max-w-2xl text-4xl font-black leading-[1.35] tracking-tight sm:text-5xl lg:text-6xl">
+      <section className="relative min-h-[calc(100svh-5rem)] overflow-hidden border-b bg-slate-950 text-white">
+        <Image
+          src="/05.jpg"
+          alt="مجموعه ابزارهای جراحی فلزی برند Univer"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-slate-950/35" />
+        <div className="site-container relative z-10 flex min-h-[calc(100svh-5rem)] items-center py-12 sm:py-16">
+          <div className="w-full max-w-2xl rounded-[2rem] border border-white/15 bg-slate-950/75 p-6 shadow-2xl shadow-black/30 backdrop-blur-md sm:p-9 lg:p-12">
+            <p className="mb-4 text-sm font-semibold text-red-300">شرکت بنیان آتیه جراح | Univer</p>
+            <h1 className="text-4xl font-black leading-[1.35] tracking-tight sm:text-5xl lg:text-6xl">
               دقتی که جراح به آن{" "}
-              <span className="block text-primary">اعتماد می‌کند</span>
+              <span className="block text-red-300">اعتماد می‌کند</span>
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">
+            <p className="mt-6 max-w-xl text-base leading-8 text-white/80 sm:text-lg">
               تولید ابزار جراحی عمومی و تخصصی با برند Univer؛ حاصل مهندسی دقیق، مواد اولیه منتخب و کنترل کیفیت مستمر برای مراکز درمانی سراسر ایران.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -67,35 +75,22 @@ export default function HomePage() {
                   <ArrowLeft />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="h-12 rounded-full px-6">
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="h-12 rounded-full border-white/40 bg-white/10 px-6 text-white hover:bg-white hover:text-slate-950"
+              >
                 <Link href="/contact">دریافت مشاوره</Link>
               </Button>
             </div>
-            <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted-foreground">
+            <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-white/75">
               {standards.map((item) => (
                 <span key={item} className="flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-primary" />
+                  <CheckCircle2 className="size-4 text-red-300" />
                   {item}
                 </span>
               ))}
-            </div>
-          </div>
-
-          <div className="relative lg:ps-8">
-            <div className="relative min-h-[28rem] overflow-hidden rounded-[2rem] border bg-muted shadow-2xl shadow-slate-900/10 sm:min-h-[36rem]">
-              <Image
-                src="/05.jpg"
-                alt="مجموعه ابزارهای جراحی فلزی برند Univer"
-                fill
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-transparent" />
-              <div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/20 bg-slate-950/70 p-5 text-white backdrop-blur-md sm:inset-x-8 sm:bottom-8">
-                <p className="text-xs text-white/65">UNIVER SURGICAL INSTRUMENTS</p>
-                <p className="mt-2 text-lg font-bold">مهندسی شده برای عملکرد مطمئن در اتاق عمل</p>
-              </div>
             </div>
           </div>
         </div>
