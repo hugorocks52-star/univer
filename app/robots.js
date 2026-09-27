@@ -8,6 +8,5 @@ export default function robots() {
       disallow: ["/api/", "/panel", "/sign-in", "/sign-up"],
     },
     sitemap: `${siteConfig.url}/sitemap.xml`,
-    host: siteConfig.url,
   };
 }

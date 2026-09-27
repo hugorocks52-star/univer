@@ -3,14 +3,14 @@ const nextConfig = {
   async redirects() {
     const legacyHosts = [
       "universurgical.ir",
-      "universurgical.com",
+      "www.universurgical.ir",
       "www.universurgical.com",
     ];
 
     return legacyHosts.map((host) => ({
       source: "/:path*",
       has: [{ type: "host", value: host }],
-      destination: "https://www.universurgical.ir/:path*",
+      destination: "https://universurgical.com/:path*",
       permanent: true,
     }));
   },
