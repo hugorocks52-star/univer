@@ -28,10 +28,6 @@ export const metadata = {
     "Univer",
     "Surgical Instruments",
   ],
-  alternates: {
-    canonical: "/",
-    languages: { "fa-IR": "/" },
-  },
   openGraph: {
     type: "website",
     locale: "fa_IR",

@@ -15,6 +15,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { productCategories, siteConfig } from "@/lib/site-data";
 import { formatPersianNumber, toPersianDigits } from "@/utils/persian";
 
+export const metadata = {
+  alternates: {
+    canonical: "/",
+    languages: { "fa-IR": "/" },
+  },
+};
+
 const standards = [
   "مواد اولیه استنلس استیل منتخب",
   "کنترل کیفیت مرحله‌به‌مرحله",
