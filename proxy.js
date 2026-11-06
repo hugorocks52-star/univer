@@ -4,8 +4,11 @@ export default clerkMiddleware();
 
 export const config = {
   matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|pdf|docx?|xlsx?|zip|webmanifest|xml)).*)",
-    "/(api|trpc)(.*)",
-    "/__clerk/(.*)",
+    "/sign-in/:path*",
+    "/sign-up/:path*",
+    "/panel/:path*",
+    "/api/:path*",
+    "/trpc/:path*",
+    "/__clerk/:path*",
   ],
 };
