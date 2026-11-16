@@ -108,7 +108,7 @@ export default function HomePage() {
         <div className="site-container grid divide-y sm:grid-cols-3 sm:divide-x sm:divide-x-reverse sm:divide-y-0">
           {[
             { icon: Building2, value: `${formatPersianNumber(500)}+`, label: "بیمارستان مصرف‌کننده" },
-            { icon: ShieldCheck, value: toPersianDigits(3), label: "سال گارانتی تعویض" },
+            { icon: ShieldCheck, value: toPersianDigits(5), label: "سال گارانتی تعویض" },
             { icon: Award, value: toPersianDigits(3), label: "استاندارد و تأییدیه کیفی" },
           ].map((stat) => (
             <div key={stat.label} className="flex items-center justify-center gap-4 px-5 py-8">
